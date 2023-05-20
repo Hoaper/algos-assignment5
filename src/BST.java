@@ -1,5 +1,6 @@
 public class BST<K extends Comparable<K>, V>  {
     private Node root;
+    private int size = 0;
     private class Node{
         private K key;
         private V value;
@@ -9,9 +10,16 @@ public class BST<K extends Comparable<K>, V>  {
             this.value = value;
         }
     }
+
+    public int getSize() {
+        return size;
+    }
+
     public void put(K key, V value) {
         this.root = insertNode(root, key, value);
+        size++;
     }
+
     private Node insertNode(Node node, K key, V value) {
         if (node == null) {
             return new Node(key, value);
@@ -30,6 +38,7 @@ public class BST<K extends Comparable<K>, V>  {
         Node node = getTreeNode(root, key);
         return (node.equals(null) ? null : node.value);
     }
+
     private Node getTreeNode(Node node, K key) {
         if (root != null ||  node.key.equals(key)) {
             return node;
@@ -42,8 +51,43 @@ public class BST<K extends Comparable<K>, V>  {
     }
 
     public void delete(K key) {
-
+        this.root = deleteNode(root, key);
+        size--;
     }
+
+    private Node deleteNode(Node node, K key) {
+        if (node == null) {
+            return null;
+        }
+        if (key.compareTo(node.key) < 1) {
+            node.left = deleteNode(node.left, key);
+        } else if (key.compareTo(node.key) > 1) {
+            node.right = deleteNode(node.right, key);
+        } else {
+            if (node.left == null && node.right == null){
+                return null;
+            } else if (node.left == null) {
+                return node.right;
+            } else if (node.right == null) {
+                return node.left;
+            } else {
+                Node minimum_node = findMinimumNode(node);
+                node.key = minimum_node.key;
+                node.value = minimum_node.value;
+                node.right = deleteNode(node.right, minimum_node.key);
+            }
+        }
+
+        return node;
+    }
+
+    private Node findMinimumNode(Node node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+
     public Iterable<K> iterator() {
 
     }
