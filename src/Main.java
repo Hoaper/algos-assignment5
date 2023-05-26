@@ -1,5 +1,3 @@
-import java.util.Iterator;
-
 public class Main {
     public static void main(String[] args) {
         BST<Integer, String> bst = new BST();
@@ -11,5 +9,6 @@ public class Main {
         for(Object el: it) {
             System.out.println(el);
         }
+        System.out.println(bst.contians("Value 12"));
     }
 }

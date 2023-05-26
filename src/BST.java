@@ -112,4 +112,23 @@ public class BST<K extends Comparable<K>, V>  {
         }
         return list;
     }
+
+    public boolean contians(V value) {
+        return contains(root, value);
+    }
+    private boolean contains(Node node, V value) {
+        if (node != null && node.value.equals(value)) {
+            return true;
+        }
+        if (node.right == null && node.left == null) {
+            return false;
+        }
+        if (node.left != null) {
+            if (contains(node.left, value)) return true;
+        }
+        if(node.right != null) {
+            if(contains(node.right, value)) return true;
+        }
+        return false;
+    }
 }
